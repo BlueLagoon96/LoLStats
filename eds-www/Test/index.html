@@ -1,0 +1,55 @@
+<html>
+<head>
+<!--piece 1: link jquery to page-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--piece 2: get the text in championById. with id passed as argument-->
+<script>
+var cbiFilename = "championById.php";
+var api_key = "RGAPI-7ddc9efa-a700-485b-a20a-1b78d8905b9e";
+function loadChampionById() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     document.getElementById("result").innerHTML = this.responseText;
+    }
+  };
+  $requestChampionById =  cbiFilename + "?id=" + document.getElementById("championId").value + "?api_key=" + api_key;
+  xhttp.open("GET", $requestChampionById, true);
+  xhttp.send();
+}
+</script>
+<script>
+var sbnFilename = "summonerByName.php";
+var api_key = "RGAPI-7ddc9efa-a700-485b-a20a-1b78d8905b9e";
+function loadSummonerByName() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+     document.getElementById("summonerNameResult").innerHTML = this.responseText;
+    }
+  };
+  $request =  sbnFilename + "?name=" + document.getElementById("loadSummonerByName").value + "?api_key=" + api_key;
+  xhttp.open("GET", $request, true);
+  xhttp.send();
+}
+</script>
+</head>
+<body>
+<pre id="api_key">RGAPI-7ddc9efa-a700-485b-a20a-1b78d8905b9e</pre>
+<!--p3 store the result here-->
+<pre id="result">championById json here</pre>
+<!--p4 receive the argument from value field from here-->
+<input id="championId" type="text" value=""/>
+<br/>
+<!--p4 call loadDoc() when pressed-->
+<button onclick="loadChampionById();">search champion by Id</button>
+
+<!--p3 store the result here-->
+<pre id="summonerNameResult">summonerName json here</pre>
+<!--p4 receive the argument from value field from here-->
+<input id="loadSummonerByName" type="text" value=""/>
+<br/>
+<!--p4 call loadDoc() when pressed-->
+<button onclick="loadSummonerByName();">search summoner by name</button>
+</body>
+</html>
