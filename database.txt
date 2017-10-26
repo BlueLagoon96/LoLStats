@@ -1,0 +1,148 @@
+=====================================
+DATABASE
+=====================================
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` text NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+INSERT INTO `user` (`ID`, `NAME`) VALUES
+(1, 'name1'),
+(2, 'name2'),
+(3, 'name3'),
+=====================================
+
+
+
+
+=====================================
+db_select.php
+=====================================
+<?php
+$servername = "localhost";
+$username   = "root";
+$password   = "xxxxxxxx";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+echo "Connected successfully";
+
+// run query
+$sql = "select id, name from example.user;";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: " . $row["id"]. " - Name: " . $row["name"] . "<br>";
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+?>
+=====================================
+
+
+
+
+=====================================
+db_insert.php
+=====================================
+<?php
+$servername = "localhost";
+$username   = "root";
+$password   = "xxxxxxxx";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+echo "Connected successfully";
+
+$sql = "INSERT INTO example.user (name) values ('toto');";
+
+if ($conn->multi_query($sql) === TRUE) {
+    echo "New record added";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
+
+$conn->close();
+?>
+=====================================
+
+
+
+=====================================
+db_delete.php
+=====================================
+<?php
+$servername = "localhost";
+$username   = "root";
+$password   = "xxxxxxxx";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+echo "Connected successfully";
+
+$sql = "DELETE FROM example.user WHERE name='toto';";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Record deleted successfully";
+} else {
+    echo "Error deleting record: " . $conn->error;
+}
+
+$conn->close();
+?>=====================================
+
+
+
+=====================================
+db_update.php
+=====================================
+<?php
+$servername = "localhost";
+$username   = "root";
+$password   = "xxxxxxxx";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+echo "Connected successfully";
+
+$sql = "UPDATE example.user SET name='titi' WHERE name='toto'";
+
+if ($conn->query($sql) === TRUE) {
+    echo "Record updated successfully";
+} else {
+    echo "Error updating record: " . $conn->error;
+}
+
+$conn->close();
+?>
+=====================================
+
