@@ -1,0 +1,169 @@
+===========================================================
+ajax.php
+<html>
+<head>
+<script>
+function load() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			document.getElementById("text").innerHTML = this.responseText;
+		}
+	};
+	$url = "champion.php?id=" + document.getElementById("championid").value;
+	xhttp.open("GET", $url, true);
+	xhttp.send();
+}//end function
+</script>
+</head>
+<body>
+===========================================================
+champion.php
+<input id="championid" type="text" value="" />championid<br/>
+<br/>
+<pre id="text">xxxxx</pre><br/>
+<br/>
+<input type="button" value="load" onclick="load();" /><br/>
+
+</body>
+</html>
+<?php include 'include.php';?>
+<?PHP
+$id  = "";
+if(isset($_REQUEST["id"])) {$id = $_REQUEST["id"];}
+$url = "https://na1.api.riotgames.com/lol/platform/v3/champions/" . $id . "?freeToPlay=false&api_key=" . $key;
+sleep(2);
+$sFile = file_get_contents($url, False);
+echo $sFile;
+?>
+===========================================================
+examples.php
+<html>
+<head>
+</head>
+<body>
+
+<hr/>
+get champion by id<br/>
+<form method="GET" action="champion.php">
+	<input type="text" name="id" value="266" />id<br/>
+	<input type="submit"/><br/>
+</form>
+<hr/>
+
+get summoner by name<br/>
+<form method="GET" action="summoner.php">
+	<input type="text" name="name" value="nicolas78" />name<br/>
+	<input type="submit"/><br/>
+</form>
+<hr/>
+
+get matches by accountid<br/>
+<form method="GET" action="match.php">
+	<input type="text" name="accountid" value="42989420" />accountid<br/>
+	<input type="submit"/><br/>
+</form>
+<hr/>
+
+</body>
+</html>
+===========================================================
+include.php
+<?PHP
+$key = "";
+?>
+===========================================================
+json.php
+<pre>
+<?PHP
+$o = new StdClass;
+$o->name = "John";
+$o->age  = 30;
+$o->city = "New York";
+echo " - " . $o->name . " - " . $o->age . " - " . $o->city . " - ";
+echo "\n";
+
+$json = json_encode($o);
+echo $json;
+echo "\n";
+
+$x = json_decode($json);
+echo " - " . $x->name . " - " . $x->age . " - " . $x->city . " - ";
+echo "\n";
+
+?>
+===========================================================
+match.php
+<?php include 'include.php';?>
+<?PHP
+
+$accountid = "";
+if(isset($_REQUEST["accountid"])) {$accountid = $_REQUEST["accountid"];}
+$url = "https://na1.api.riotgames.com/lol/match/v3/matchlists/by-account/" . $accountid . "?api_key=" . $key;
+sleep(2);
+$sFile = file_get_contents($url);
+echo $sFile;
+?>
+===========================================================
+matchinfo.php
+<?php include 'include.php';?>
+<?PHP
+$id = "";
+if(isset($_REQUEST["id"])) {$id = $_REQUEST["id"];}
+$url = "https://na1.api.riotgames.com/lol/match/v3/matches/" . $id . "?api_key=" . $key;
+
+sleep(2);
+$sFile = file_get_contents($url);
+echo $sFile;
+
+
+$x = json_decode($sFile ,false);
+
+?>
+===========================================================
+statistics.php
+<?php include 'include.php';?>
+<pre>
+<?PHP
+$json_matches = '{"matches":[{"platformId":"NA1","gameId":2464562212,"champion":25,"queue":420,"season":9,"timestamp":1491020886778,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2464505095,"champion":25,"queue":420,"season":9,"timestamp":1491017665605,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2464499986,"champion":25,"queue":420,"season":9,"timestamp":1491015547641,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2464330661,"champion":25,"queue":420,"season":9,"timestamp":1491001218941,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2460913517,"champion":9,"queue":420,"season":9,"timestamp":1490588870410,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2458197976,"champion":25,"queue":420,"season":9,"timestamp":1490321858568,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2458189758,"champion":25,"queue":420,"season":9,"timestamp":1490318086192,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2458098784,"champion":25,"queue":420,"season":9,"timestamp":1490312886303,"role":"DUO_SUPPORT","lane":"BOTTOM"},{"platformId":"NA1","gameId":2458103137,"champion":9,"queue":420,"season":9,"timestamp":1490310018826,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2456303962,"champion":25,"queue":420,"season":9,"timestamp":1490138713775,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2456259610,"champion":25,"queue":420,"season":9,"timestamp":1490136021276,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2456245281,"champion":25,"queue":420,"season":9,"timestamp":1490133180993,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2456195596,"champion":9,"queue":420,"season":9,"timestamp":1490126657928,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2447524280,"champion":9,"queue":420,"season":9,"timestamp":1489201510210,"role":"DUO","lane":"BOTTOM"},{"platformId":"NA1","gameId":2447477098,"champion":25,"queue":420,"season":9,"timestamp":1489198190594,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2446215164,"champion":25,"queue":420,"season":9,"timestamp":1489034312799,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2445208089,"champion":9,"queue":420,"season":9,"timestamp":1488931403001,"role":"DUO","lane":"BOTTOM"},{"platformId":"NA1","gameId":2444545458,"champion":25,"queue":420,"season":9,"timestamp":1488844735796,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2441492621,"champion":25,"queue":420,"season":9,"timestamp":1488586646428,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2440661973,"champion":25,"queue":420,"season":9,"timestamp":1488503007058,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2440617948,"champion":25,"queue":420,"season":9,"timestamp":1488501036384,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2440172249,"champion":25,"queue":420,"season":9,"timestamp":1488421558601,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2440039590,"champion":25,"queue":420,"season":9,"timestamp":1488415823261,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2439292242,"champion":25,"queue":420,"season":9,"timestamp":1488330327299,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2435094774,"champion":25,"queue":420,"season":9,"timestamp":1487985026050,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2435089768,"champion":25,"queue":420,"season":9,"timestamp":1487981600187,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2432976606,"champion":25,"queue":420,"season":9,"timestamp":1487811553775,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2432459315,"champion":25,"queue":420,"season":9,"timestamp":1487732387615,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2432441520,"champion":25,"queue":420,"season":9,"timestamp":1487729444662,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2432383247,"champion":9,"queue":420,"season":9,"timestamp":1487726032725,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2422157871,"champion":25,"queue":420,"season":9,"timestamp":1486833405592,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2422152320,"champion":25,"queue":420,"season":9,"timestamp":1486830075681,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2406556807,"champion":25,"queue":420,"season":9,"timestamp":1485149664314,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2406552421,"champion":25,"queue":420,"season":9,"timestamp":1485147482155,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2393126891,"champion":25,"queue":420,"season":9,"timestamp":1483756283482,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2393101498,"champion":25,"queue":420,"season":9,"timestamp":1483753178030,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2393016342,"champion":25,"queue":420,"season":9,"timestamp":1483750838853,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2391710637,"champion":25,"queue":440,"season":9,"timestamp":1483589334803,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2391653485,"champion":25,"queue":420,"season":9,"timestamp":1483586491755,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2389799918,"champion":25,"queue":420,"season":9,"timestamp":1483402321181,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2389683328,"champion":25,"queue":420,"season":9,"timestamp":1483399363856,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2389625419,"champion":9,"queue":420,"season":9,"timestamp":1483396876772,"role":"DUO_CARRY","lane":"BOTTOM"},{"platformId":"NA1","gameId":2389549102,"champion":25,"queue":420,"season":9,"timestamp":1483393968274,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387799623,"champion":25,"queue":420,"season":9,"timestamp":1483222543125,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387793107,"champion":9,"queue":420,"season":9,"timestamp":1483219084869,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387747058,"champion":25,"queue":420,"season":9,"timestamp":1483216126637,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387731974,"champion":25,"queue":420,"season":9,"timestamp":1483212850314,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387676712,"champion":25,"queue":420,"season":9,"timestamp":1483209509149,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387681808,"champion":25,"queue":420,"season":9,"timestamp":1483206187673,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387610385,"champion":25,"queue":420,"season":9,"timestamp":1483186397902,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387568958,"champion":25,"queue":420,"season":9,"timestamp":1483184224849,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387548705,"champion":25,"queue":420,"season":9,"timestamp":1483180381372,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2387555593,"champion":25,"queue":420,"season":9,"timestamp":1483177436862,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387543229,"champion":25,"queue":420,"season":9,"timestamp":1483173882701,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387539749,"champion":25,"queue":420,"season":9,"timestamp":1483171166705,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387497101,"champion":25,"queue":420,"season":9,"timestamp":1483170265043,"role":"DUO","lane":"BOTTOM"},{"platformId":"NA1","gameId":2387481365,"champion":25,"queue":420,"season":9,"timestamp":1483166443937,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387448935,"champion":25,"queue":420,"season":9,"timestamp":1483165766423,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387451554,"champion":25,"queue":420,"season":9,"timestamp":1483162667698,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387440460,"champion":25,"queue":420,"season":9,"timestamp":1483161905279,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387374234,"champion":25,"queue":420,"season":9,"timestamp":1483159182834,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2387335880,"champion":25,"queue":420,"season":9,"timestamp":1483156062056,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2386973078,"champion":25,"queue":420,"season":9,"timestamp":1483123019899,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2386928835,"champion":25,"queue":420,"season":9,"timestamp":1483120406961,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2386629426,"champion":25,"queue":420,"season":9,"timestamp":1483081296853,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2386633446,"champion":25,"queue":420,"season":9,"timestamp":1483078583233,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2386526357,"champion":9,"queue":420,"season":9,"timestamp":1483075468224,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2386491368,"champion":25,"queue":420,"season":9,"timestamp":1483072942245,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2386374515,"champion":25,"queue":420,"season":9,"timestamp":1483070633739,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2386083979,"champion":25,"queue":420,"season":9,"timestamp":1483047938707,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2386029489,"champion":25,"queue":420,"season":9,"timestamp":1483045445096,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2386033245,"champion":25,"queue":420,"season":9,"timestamp":1483042174171,"role":"DUO","lane":"BOTTOM"},{"platformId":"NA1","gameId":2385978401,"champion":25,"queue":440,"season":9,"timestamp":1483039342959,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385845984,"champion":25,"queue":420,"season":9,"timestamp":1483008778177,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385854779,"champion":25,"queue":420,"season":9,"timestamp":1483006850381,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385843159,"champion":25,"queue":420,"season":9,"timestamp":1483004158196,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385839820,"champion":25,"queue":420,"season":9,"timestamp":1483000764624,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385777238,"champion":25,"queue":420,"season":9,"timestamp":1482997807949,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385773319,"champion":25,"queue":420,"season":9,"timestamp":1482995359033,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385744981,"champion":25,"queue":420,"season":9,"timestamp":1482991895119,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385677883,"champion":9,"queue":420,"season":9,"timestamp":1482988810066,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385300638,"champion":25,"queue":420,"season":9,"timestamp":1482958456062,"role":"SOLO","lane":"TOP"},{"platformId":"NA1","gameId":2385203875,"champion":9,"queue":420,"season":9,"timestamp":1482954636692,"role":"DUO","lane":"BOTTOM"},{"platformId":"NA1","gameId":2385199939,"champion":25,"queue":420,"season":9,"timestamp":1482952158463,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385048297,"champion":25,"queue":420,"season":9,"timestamp":1482950261867,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2385061895,"champion":25,"queue":420,"season":9,"timestamp":1482946352648,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384938485,"champion":9,"queue":420,"season":9,"timestamp":1482942871420,"role":"NONE","lane":"JUNGLE"},{"platformId":"NA1","gameId":2384838072,"champion":25,"queue":420,"season":9,"timestamp":1482921192752,"role":"DUO","lane":"MID"},{"platformId":"NA1","gameId":2384837656,"champion":25,"queue":420,"season":9,"timestamp":1482920428646,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384796940,"champion":25,"queue":420,"season":9,"timestamp":1482917630151,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384794769,"champion":25,"queue":420,"season":9,"timestamp":1482915198564,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384829877,"champion":9,"queue":420,"season":9,"timestamp":1482912249941,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384773448,"champion":25,"queue":420,"season":9,"timestamp":1482908174308,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384706414,"champion":25,"queue":420,"season":9,"timestamp":1482904695482,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384704615,"champion":25,"queue":420,"season":9,"timestamp":1482903879346,"role":"DUO","lane":"MID"},{"platformId":"NA1","gameId":2384626003,"champion":25,"queue":440,"season":9,"timestamp":1482899843364,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384508062,"champion":25,"queue":440,"season":9,"timestamp":1482892734162,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384520734,"champion":25,"queue":440,"season":9,"timestamp":1482890158455,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384484930,"champion":25,"queue":440,"season":9,"timestamp":1482887594405,"role":"SOLO","lane":"MID"},{"platformId":"NA1","gameId":2384417991,"champion":9,"queue":420,"season":9,"timestamp":1482884154016,"role":"SOLO","lane":"MID"}],"startIndex":0,"endIndex":100,"totalGames":2587}';
+
+$x = new StdClass;
+$x = json_decode($json_matches, false);
+echo "obj     : " . $x->startIndex . "\n";
+echo "obj     : " . $x->endIndex   . "\n";
+echo "obj     : " . $x->totalGames . "\n";
+$m = $x->matches;
+echo "matches : " . print_r ($m)   . "\n";
+
+function filterArray($value){
+    return ($value == 2);
+}
+$filteredArray = array_filter($fullArray, 'filterArray');
+
+foreach($filteredArray as $k => $v){
+    echo "$k = $v";
+}
+
+
+
+/*
+queue=420             5v5 Ranked Solo games
+&platformId=NA1
+&season=9             SEASON 2017
+&champion=25
+role=SOLO             DUO, NONE, SOLO, DUO_CARRY, DUO_SUPPORT
+lane=TOP              MID, TOP, JUNGLE, BOT
+*/
+?>
+===========================================================
+summoner.php
+<?php include 'include.php';?>
+<?PHP
+$name = "";
+if(isset($_REQUEST["name"])) {$name = $_REQUEST["name"];}
+$url = "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/" . $name . "?api_key=" . $key;
+sleep(2);
+$sFile = file_get_contents($url, False);
+echo $sFile;
+?>
+===========================================================
